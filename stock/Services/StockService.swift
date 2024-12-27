@@ -46,6 +46,7 @@ class StockService {
             }
             
             let fields = quotePart.components(separatedBy: ",")
+
             
             if line.contains("hf_CHA50CFD") {
                 // Special handling for the new index
@@ -58,7 +59,7 @@ class StockService {
                 let changePercent = (currentPrice - yesterdayPrice) / yesterdayPrice * 100
                 
                 return Stock(
-                    name: "富时A50期货",
+                    name: "A50期货",
                     currentPrice: currentPrice,
                     changePercent: changePercent
                 )
@@ -72,8 +73,10 @@ class StockService {
                 
                 let changePercent = (currentPrice - yesterdayPrice) / yesterdayPrice * 100
                 
+
+                
                 return Stock(
-                    name: fields[0],
+                    name: line.contains("sh510300") ? "300ETF":fields[0],
                     currentPrice: currentPrice,
                     changePercent: changePercent
                 )

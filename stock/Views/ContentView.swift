@@ -11,21 +11,25 @@ struct ContentView: View {
                 StockListView(stocks: viewModel.stocks)
             }
         }
-        .frame(width: 214)
+        .frame(width: 180)
         .padding(0)
         .background(Color(white:0.1))
         .clipShape(RoundedRectangle(cornerRadius: 10))
         .onAppear {
             if let window = NSApplication.shared.windows.first {
                 window.level = .floating
-//                window.styleMask.remove(.titled)
-                window.styleMask.remove(.closable)
-                window.styleMask.remove(.miniaturizable)
-                window.styleMask.remove(.resizable)
-                window.setContentSize(NSSize(width: 214, height: window.frame.height))
-                window.minSize = NSSize(width: 214, height: 0)
-                window.maxSize = NSSize(width: 214, height: CGFloat.infinity)
+                // Set window style to be borderless but allow resizing
+                window.styleMask = [.borderless, .resizable]
+                window.backgroundColor = .clear
+                window.setContentSize(NSSize(width: 180, height: window.frame.height))
+                window.minSize = NSSize(width: 180, height: 100) // Set minimum height
+                window.maxSize = NSSize(width: 180, height: CGFloat.infinity)
                 window.isMovableByWindowBackground = true
+                
+                // Add resize and move capability
+                if let contentView = window.contentView {
+                    contentView.wantsLayer = true
+                }
 
             }
         }
@@ -71,13 +75,13 @@ struct StockRow: View {
     var body: some View {
         HStack(spacing: 0) { // Ensure no spacing in HStack
             Text(stock.name)
-                .frame(width: 80, alignment: .leading)
+                .frame(width: 55, alignment: .leading)
                 .foregroundColor(stock.isUp ? .red : stock.isDown ? .green : .white)
             Text(String(format: stock.name.contains("ETF") ? "%.3f" : "%.2f", stock.currentPrice))
                 .frame(width: 60, alignment: .trailing)
                 .foregroundColor(stock.isUp ? .red : stock.isDown ? .green : .white)
             Text(String(format: "%+.2f%%", stock.changePercent))
-                .frame(width: 60, alignment: .trailing)
+                .frame(width: 55, alignment: .trailing)
                 .foregroundColor(stock.isUp ? .red : stock.isDown ? .green : .white)
         }
         .listRowBackground(isEvenRow ? Color(white:0.1) : Color(white: 0.2))

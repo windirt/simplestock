@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleIconFile</key>
-	<string></string>
+	<string>AppIcon.icns</string>
 	<key>CFBundleIconName</key>
 	<string>AppIcon</string>
 	<key>NSAppTransportSecurity</key>
